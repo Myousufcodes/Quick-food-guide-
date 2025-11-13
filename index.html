@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quick Food Preparation Guide</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="logo-container">
+        <div class="logo">🍽️</div>
+        <div>
+          <h1>Quick Food Preparation Guide By MOHAMMED YOUSUF QADRI</h1>
+          <p class="subtitle">Step-by-step instructions for all menu items</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="search-container">
+      <i class="fas fa-search search-icon"></i>
+      <input
+        type="text"
+        class="search-box"
+        id="searchInput"
+        placeholder="Search for menu items, ingredients, or steps..."
+      />
+    </div>
+
+    <div class="main-container">
+      <div class="section-nav" id="sectionNav">
+        <!-- Section navigation buttons will be added here -->
+      </div>
+
+      <div id="sectionsContainer">
+        <!-- Sections will be dynamically added here -->
+      </div>
+
+      <div class="no-results" id="noResults">
+        <i class="fas fa-search fa-2x" style="margin-bottom: 1rem"></i>
+        <p>No matching items found. Try a different search term.</p>
+      </div>
+    </div>
+
+    <div class="steps-modal" id="stepsModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="modalTitle">Procedure Title</h2>
+          <button class="close-btn" id="closeModal">&times;</button>
+        </div>
+        <div class="modal-body" id="modalBody">
+          <!-- Content will be dynamically added here -->
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>
+        Quick Food Preparation Guide &copy; 2025. For training purposes only.
+        Made by MOHAMMED YOUSUF QADRI
+      </p>
+    </footer>
+
+    <script>
+      // Food preparation data organized by sections
+      const foodSections = [
+        {
+          id: "rice-salad-platters",
+          title: "Rice & Salad Platters",
+          icon: "🍚",
+          items: [
+            {
+              id: 1,
+              title: "Chicken Tikka Masala Platter",
+              image: "🍛",
+              ingredients: [
+                "3 scoops rice",
+                "Chicken chopped",
+                "Tikka masala sauce",
+              ],
+              steps: [
+                "Put 3 scoops rice in bowl.",
+                "Add chopped chicken tikka.",
+                "Pour tikka masala sauce on top.",
+                "Mix slightly.",
+                "Microwave 30 sec.",
+                "Serve.",
+              ],
+            },
+            {
+              id: 2,
+              title: "Classic Gyro Platter",
+              image: "🥙",
+              ingredients: ["3 scoops rice", "Gyro slices", "Ranch"],
+              steps: [
+                "Add 3 scoops rice.",
+                "Put gyro pieces on top.",
+                "Add ranch on top.",
+                "Microwave 30 sec.",
+                "Serve.",
+              ],
+            },
+            {
+              id: 3,
+              title: "Falafel Platter",
+              image: "🧆",
+              ingredients: ["3 scoops rice", "Falafel pieces", "Ranch"],
+              steps: [
+                "Add rice.",
+                "Add falafel on top.",
+                "Add ranch.",
+                "Microwave 30 sec.",
+                "Serve.",
+              ],
+            },
+          ],
+        },
+        {
+          id: "snacks",
+          title: "Snacks",
+          icon: "🍿",
+          items: [
+            {
+              id: 1,
+              title: "Mac & Cheese",
+              image: "🧀",
+              ingredients: ["Mac & Cheese", "Cheese (if included)"],
+              steps: [
+                "Microwave 40 sec",
+                "Add cheese (if included)",
+                "Microwave 40 sec again",
+              ],
+            },
+            {
+              id: 2,
+              title: "4-Piece Chicken Tenders",
+              image: "🍗",
+              ingredients: ["4 chicken tenders", "Sauce of choice"],
+              steps: ["Bake/oven until crispy", "Serve with sauce of choice"],
+            },
+            {
+              id: 3,
+              title: "Beef Empanada",
+              image: "🥟",
+              ingredients: ["Beef empanada"],
+              steps: ["Bake/oven until golden"],
+            },
+            {
+              id: 4,
+              title: "Chicken Empanada",
+              image: "🥟",
+              ingredients: ["Chicken empanada"],
+              steps: ["Bake/oven until golden"],
+            },
+            {
+              id: 5,
+              title: "French Fries",
+              image: "🍟",
+              ingredients: ["French fries", "Salt"],
+              steps: ["Oven or fryer until crisp", "Salt & serve"],
+            },
+            {
+              id: 6,
+              title: "Hash Brown",
+              image: "🥔",
+              ingredients: ["Hash brown"],
+              steps: ["Oven until crisp"],
+            },
+            {
+              id: 7,
+              title: "TSCA Chicken Snack Wrap",
+              image: "🌯",
+              ingredients: [
+                "1 chicken tender",
+                "White tortilla",
+                "Pepper jack cheese",
+              ],
+              steps: [
+                "Microwave tender 15 sec.",
+                "Place tender inside wrap.",
+                "Add 1 slice pepper jack cheese.",
+                "Roll and serve.",
+              ],
+            },
+            {
+              id: 8,
+              title: "Jumbo Hot Dog",
+              image: "🌭",
+              ingredients: [
+                "Jumbo hot dog",
+                "Hot dog bun",
+                "Ketchup/mustard/onions (optional)",
+              ],
+              steps: [
+                "Oven (or steam) until hot",
+                "Place in bun",
+                "Add ketchup/mustard/onions (optional)",
+              ],
+            },
+          ],
+        },
+        {
+          id: "breakfast",
+          title: "Breakfast Items",
+          icon: "🍳",
+          items: [
+            {
+              id: 1,
+              title: "Pork Roll Egg & Cheese (Portuguese Roll)",
+              image: "🥪",
+              ingredients: [
+                "3 slices pork roll",
+                "2 fried eggs",
+                "2 yellow cheese slices",
+                "Portuguese roll",
+              ],
+              steps: [
+                "Roll → add cheese → add pork → add eggs.",
+                "Toast until cheese melts.",
+                "Close & serve.",
+              ],
+            },
+            {
+              id: 2,
+              title: "Sausage Egg & Cheese",
+              image: "🥓",
+              ingredients: [
+                "2 fried eggs",
+                "2 sausage patties",
+                "Cheese",
+                "Bread",
+              ],
+              steps: ["Bread → cheese → sausage → eggs.", "Toast.", "Serve."],
+            },
+            {
+              id: 3,
+              title: "Cheese Portuguese Roll",
+              image: "🧀",
+              ingredients: [
+                "2 slices pork roll",
+                "2 yellow cheese",
+                "Portuguese roll",
+              ],
+              steps: ["Build inside roll.", "Toast.", "Serve."],
+            },
+            {
+              id: 4,
+              title: "Croissant Egg Cheese & Sausage",
+              image: "🥐",
+              ingredients: ["1 sausage", "1 egg", "Cheese", "Croissant"],
+              steps: [
+                "Croissant → cheese → sausage → egg.",
+                "Toast lightly.",
+                "Serve.",
+              ],
+            },
+            {
+              id: 5,
+              title: "Waffle Egg Cheese & Sausage",
+              image: "🧇",
+              ingredients: ["1 sausage", "1 egg", "Cheese", "Waffles"],
+              steps: ["Waffles → cheese → sausage → egg.", "Toast.", "Serve."],
+            },
+            {
+              id: 6,
+              title: "English Muffin Sausage Egg & Cheese",
+              image: "🍞",
+              ingredients: [
+                "2 pork",
+                "2 fried eggs",
+                "2 cheese slices",
+                "English muffin",
+              ],
+              steps: ["Muffin → cheese → pork → eggs.", "Toast.", "Serve."],
+            },
+            {
+              id: 7,
+              title: "Homestyle Burrito",
+              image: "🌯",
+              ingredients: [
+                "1 pork",
+                "1 scrambled egg",
+                "Cheddar cheese",
+                "Burrito tortilla",
+              ],
+              steps: [
+                "Microwave pork 30 sec, chop it.",
+                "Add 1 scrambled egg.",
+                "Add 1 scoop cheddar.",
+                "Roll burrito.",
+                "Toast if needed.",
+              ],
+            },
+            {
+              id: 8,
+              title: "Bagel Egg Cheese Bacon",
+              image: "🥯",
+              ingredients: ["2 eggs", "2 bacon", "Cheese", "Bagel"],
+              steps: ["Bagel → cheese → eggs → bacon.", "Toast.", "Serve."],
+            },
+            {
+              id: 9,
+              title: "Breakfast Bowl",
+              image: "🍲",
+              ingredients: ["Scrambled eggs", "Pork", "Cheddar cheese"],
+              steps: [
+                "Add 2 scrambled eggs.",
+                "Add 1 scoop pork.",
+                "Add cheese.",
+                "Microwave 30 sec.",
+                "Serve.",
+              ],
+            },
+            {
+              id: 10,
+              title: "Cream Cheese Bagel",
+              image: "🥯",
+              ingredients: ["Bagel", "Cream cheese"],
+              steps: ["Toast bagel", "Spread cream cheese", "Serve"],
+            },
+            {
+              id: 11,
+              title: "Texas Cheesy Toast",
+              image: "🍞",
+              ingredients: ["Bread", "Cheese slices"],
+              steps: ["Add cheese slices", "Toast open-face", "Serve"],
+            },
+            {
+              id: 12,
+              title: "Egg & Cheese Sub",
+              image: "🥖",
+              ingredients: ["Scrambled eggs", "Cheese", "Sub roll"],
+              steps: [
+                "Sub roll → cheese → scrambled eggs.",
+                "Toast.",
+                "Serve.",
+              ],
+            },
+          ],
+        },
+        {
+          id: "combo-deals",
+          title: "Combo Deals",
+          icon: "🍱",
+          items: [
+            {
+              id: 1,
+              title: "Jumbo Hot Dog + 2 Hash Browns",
+              image: "🌭",
+              ingredients: ["Jumbo hot dog", "Hot dog bun", "2 hash browns"],
+              steps: [
+                "Heat hot dog.",
+                "Toast bun.",
+                "Oven hash browns until crisp.",
+                "Serve as combo.",
+              ],
+            },
+            {
+              id: 2,
+              title: "Burger + French Fries",
+              image: "🍔",
+              ingredients: [
+                "1 burger patty",
+                "2 cheese slices",
+                "Burger bun",
+                "French fries",
+              ],
+              steps: [
+                "Cook burger patty.",
+                "Add cheese → let melt.",
+                "Toast bun.",
+                "Cook fries.",
+                "Assemble and serve.",
+              ],
+            },
+            {
+              id: 3,
+              title: "Ham & Cheese Sandwich + 20oz Coke",
+              image: "🥪",
+              ingredients: [
+                "4 slices ham",
+                "4 slices cheese",
+                "Bread",
+                "20oz Coke",
+              ],
+              steps: [
+                "Sandwich → layered ham + cheese.",
+                "Toast if needed.",
+                "Serve with Coke.",
+              ],
+            },
+            {
+              id: 4,
+              title: "Turkey Sub + 20oz Coke",
+              image: "🥖",
+              ingredients: [
+                "4 slices turkey",
+                "2 slices cheese",
+                "Sub roll",
+                "20oz Coke",
+              ],
+              steps: [
+                "Build sub in roll.",
+                "Toast optional.",
+                "Serve with Coke.",
+              ],
+            },
+            {
+              id: 5,
+              title: "2 Jumbo Hot Dogs + Fries",
+              image: "🌭",
+              ingredients: [
+                "2 jumbo hot dogs",
+                "2 hot dog buns",
+                "French fries",
+              ],
+              steps: [
+                "Heat dogs",
+                "Toast buns",
+                "Make fries",
+                "Serve all together",
+              ],
+            },
+            {
+              id: 6,
+              title: "Roast Beef BBQ + Coke",
+              image: "🥩",
+              ingredients: [
+                "4 slices roast beef",
+                "BBQ sauce",
+                "2 slices cheese",
+                "Roll",
+                "Coke",
+              ],
+              steps: [
+                "Roll → cheese → roast beef → BBQ.",
+                "Toast.",
+                "Serve with drink.",
+              ],
+            },
+            {
+              id: 7,
+              title: "Cheeseburger + Fries",
+              image: "🍔",
+              ingredients: [
+                "1 burger patty",
+                "2 cheese slices",
+                "Burger bun",
+                "French fries",
+              ],
+              steps: [
+                "Cook burger patty.",
+                "Add cheese → let melt.",
+                "Toast bun.",
+                "Cook fries.",
+                "Assemble and serve.",
+              ],
+            },
+          ],
+        },
+        {
+          id: "subs",
+          title: "Subs",
+          icon: "🥖",
+          items: [
+            {
+              id: 1,
+              title: "Classic Italian Sub",
+              image: "🇮🇹",
+              ingredients: [
+                "4 ham",
+                "4 salami",
+                "3 pepperoni",
+                "2 cheese",
+                "Lettuce",
+                "Tomato",
+                "Onions",
+                "Oil/vinegar",
+              ],
+              steps: [
+                "Build meats on roll.",
+                "Add cheese.",
+                "Toast optional.",
+                "Add lettuce, tomato, onions.",
+                "Add oil/vinegar + season.",
+              ],
+            },
+            {
+              id: 2,
+              title: "Chicken Tender Sub",
+              image: "🍗",
+              ingredients: [
+                "2 chicken tenders",
+                "2 cheese",
+                "Sub roll",
+                "Veggies",
+                "Sauce",
+              ],
+              steps: [
+                "Roll → cheese → tenders.",
+                "Toast.",
+                "Add veggies + sauce.",
+              ],
+            },
+            {
+              id: 3,
+              title: "Tuna Sub",
+              image: "🐟",
+              ingredients: ["2 scoops tuna", "2 cheese", "Sub roll", "Veggies"],
+              steps: ["Roll → cheese → tuna.", "Skip toast.", "Add veggies."],
+            },
+            {
+              id: 4,
+              title: "Grilled Chicken Sub",
+              image: "🍗",
+              ingredients: [
+                "Grilled chicken",
+                "Cheese",
+                "Sub roll",
+                "Veggies",
+                "Sauce",
+              ],
+              steps: [
+                "Roll → cheese → grilled chicken.",
+                "Toast.",
+                "Add veggies + sauce.",
+              ],
+            },
+            {
+              id: 5,
+              title: "Roast Beef Sandwich/Sub",
+              image: "🥩",
+              ingredients: [
+                "4 slices roast beef",
+                "Cheese",
+                "Roll",
+                "Toppings",
+              ],
+              steps: [
+                "Roll → cheese → roast beef.",
+                "Toast optional.",
+                "Add toppings.",
+              ],
+            },
+            {
+              id: 6,
+              title: "Portuguese Roll Sub",
+              image: "🥖",
+              ingredients: ["Beef", "2 cheese", "Portuguese roll", "Toppings"],
+              steps: [
+                "Portuguese roll → cheese → beef.",
+                "Toast.",
+                "Add toppings.",
+              ],
+            },
+            {
+              id: 7,
+              title: "Meatball Sub",
+              image: "🍝",
+              ingredients: ["4 meatballs", "Mozzarella", "Sub roll", "Sauce"],
+              steps: [
+                "Mix meatballs with sauce.",
+                "Microwave 30 sec.",
+                "Roll → cheese → meatballs.",
+                "Toast.",
+              ],
+            },
+            {
+              id: 8,
+              title: "Cheesesteak Sub",
+              image: "🥩",
+              ingredients: [
+                "2 scoops steak",
+                "2 cheese slices",
+                "Sub roll",
+                "Veggies",
+              ],
+              steps: [
+                "Heat steak 30 sec.",
+                "Build with cheese.",
+                "Toast.",
+                "Add veggies.",
+              ],
+            },
+            {
+              id: 9,
+              title: "Bacon Lettuce Tomato Portuguese Roll",
+              image: "🥓",
+              ingredients: [
+                "3 bacon",
+                "Cheese",
+                "Portuguese roll",
+                "Lettuce",
+                "Tomato",
+              ],
+              steps: [
+                "Microwave bacon 15 sec.",
+                "Add cheese.",
+                "Toast.",
+                "Add lettuce + tomato.",
+              ],
+            },
+            {
+              id: 10,
+              title: "Veggie Delight Sub",
+              image: "🥬",
+              ingredients: ["Any veggies", "2 cheese", "Sub roll"],
+              steps: ["Build veggies.", "Add cheese.", "Toast optional."],
+            },
+          ],
+        },
+        {
+          id: "wraps",
+          title: "Wraps",
+          icon: "🌯",
+          items: [
+            {
+              id: 1,
+              title: "Classic Italian Wrap",
+              image: "🇮🇹",
+              ingredients: [
+                "Ham",
+                "Salami",
+                "Pepperoni",
+                "Cheese",
+                "Tortilla",
+                "Lettuce",
+                "Tomato",
+              ],
+              steps: [
+                "Tortilla → cheese → meats.",
+                "Warm lightly.",
+                "Add lettuce + tomato.",
+                "Wrap tight.",
+              ],
+            },
+            {
+              id: 2,
+              title: "Veggie Delight Wrap",
+              image: "🥬",
+              ingredients: ["Veggies", "Cheese", "Tortilla"],
+              steps: ["Spread cheese on wrap.", "Add veggies.", "Roll + cut."],
+            },
+            {
+              id: 3,
+              title: "New York Turkey Wrap",
+              image: "🦃",
+              ingredients: ["Turkey", "Swiss cheese", "Veggies", "Tortilla"],
+              steps: [
+                "Add cheese → turkey → warm lightly.",
+                "Add veggies.",
+                "Wrap.",
+              ],
+            },
+            {
+              id: 4,
+              title: "Tuna California Wrap",
+              image: "🐟",
+              ingredients: ["2 scoops tuna", "Lettuce", "Tomato", "Tortilla"],
+              steps: ["Add tuna.", "Add veggies.", "Wrap tight."],
+            },
+            {
+              id: 5,
+              title: "Chicken Caesar Wrap",
+              image: "🐔",
+              ingredients: [
+                "Chicken",
+                "Parmesan",
+                "Caesar dressing",
+                "Tortilla",
+              ],
+              steps: ["Add chicken.", "Add cheese.", "Add dressing.", "Wrap."],
+            },
+            {
+              id: 6,
+              title: "Buffalo Chicken Wrap",
+              image: "🔥",
+              ingredients: [
+                "Buffalo chicken",
+                "Cheese",
+                "Lettuce/onion",
+                "Tortilla",
+              ],
+              steps: [
+                "Warm chicken.",
+                "Add cheese.",
+                "Add lettuce/onion.",
+                "Wrap.",
+              ],
+            },
+            {
+              id: 7,
+              title: "BLT Chicken Wrap",
+              image: "🥓",
+              ingredients: [
+                "Bacon",
+                "Lettuce",
+                "Tomato",
+                "Chicken",
+                "Tortilla",
+              ],
+              steps: ["Warm bacon.", "Add chicken + veggies.", "Wrap."],
+            },
+          ],
+        },
+        {
+          id: "salads",
+          title: "Salads",
+          icon: "🥗",
+          items: [
+            {
+              id: 1,
+              title: "Turkey Cobb Salad",
+              image: "🦃",
+              ingredients: [
+                "4 slices turkey chopped",
+                "Greens",
+                "Cheese",
+                "Dressing",
+              ],
+              steps: ["Base greens → protein → cheese → dressing"],
+            },
+            {
+              id: 2,
+              title: "Chicken Bean Salad",
+              image: "🐔",
+              ingredients: ["Chicken", "Beans", "Greens", "Cheese", "Dressing"],
+              steps: ["Base greens → protein → cheese → dressing"],
+            },
+            {
+              id: 3,
+              title: "Chef Salad",
+              image: "👨‍🍳",
+              ingredients: ["Assorted meats", "Greens", "Cheese", "Dressing"],
+              steps: ["Base greens → protein → cheese → dressing"],
+            },
+            {
+              id: 4,
+              title: "Tuna Salad",
+              image: "🐟",
+              ingredients: ["2 scoops tuna", "Greens", "Cheese", "Dressing"],
+              steps: ["Base greens → protein → cheese → dressing"],
+            },
+            {
+              id: 5,
+              title: "Chicken Caesar Salad",
+              image: "🐔",
+              ingredients: ["Chicken", "Parmesan", "Caesar dressing", "Greens"],
+              steps: ["Base greens → protein → cheese → dressing"],
+            },
+          ],
+        },
+        {
+          id: "burgers",
+          title: "Burgers",
+          icon: "🍔",
+          items: [
+            {
+              id: 1,
+              title: "Beef Burger",
+              image: "🐄",
+              ingredients: [
+                "1 beef patty",
+                "1 cheese slice",
+                "Burger bun",
+                "Lettuce",
+                "Tomato",
+                "Onion",
+              ],
+              steps: [
+                "Toast bun",
+                "Cook beef patty",
+                "Melt cheese on patty",
+                "Add lettuce/tomato/onion",
+                "Assemble and serve",
+              ],
+            },
+            {
+              id: 2,
+              title: "Chicken Burger",
+              image: "🐔",
+              ingredients: [
+                "Chicken patty",
+                "Cheese (optional)",
+                "Burger bun",
+                "Toppings",
+              ],
+              steps: [
+                "Toast bun",
+                "Cook chicken patty",
+                "Add cheese if included",
+                "Add toppings",
+                "Assemble and serve",
+              ],
+            },
+          ],
+        },
+        {
+          id: "breakfast-bowls",
+          title: "Breakfast Bowls",
+          icon: "🍲",
+          items: [
+            {
+              id: 1,
+              title: "Bacon Egg & Cheese Bowl",
+              image: "🥓",
+              ingredients: ["3 bacon", "Scrambled eggs", "Cheddar cheese"],
+              steps: [
+                "Microwave bacon 15 sec",
+                "Add scrambled eggs",
+                "Add cheddar cheese",
+                "Microwave 30 sec",
+              ],
+            },
+            {
+              id: 2,
+              title: "Sausage Egg & Cheese Bowl",
+              image: "🐖",
+              ingredients: ["2 pork", "2 scrambled eggs", "Cheese"],
+              steps: [
+                "Add pork",
+                "Add scrambled eggs",
+                "Add cheese",
+                "Microwave 30 sec",
+              ],
+            },
+            {
+              id: 3,
+              title: "Breaded Chicken Egg & Cheese Bowl",
+              image: "🍗",
+              ingredients: ["Breaded chicken", "Egg", "Cheese"],
+              steps: [
+                "Add breaded chicken",
+                "Add egg",
+                "Add cheese",
+                "Microwave 30 sec",
+              ],
+            },
+          ],
+        },
+      ];
+
+      // DOM elements
+      const sectionNav = document.getElementById("sectionNav");
+      const sectionsContainer = document.getElementById("sectionsContainer");
+      const searchInput = document.getElementById("searchInput");
+      const noResults = document.getElementById("noResults");
+      const stepsModal = document.getElementById("stepsModal");
+      const modalTitle = document.getElementById("modalTitle");
+      const modalBody = document.getElementById("modalBody");
+      const closeModal = document.getElementById("closeModal");
+
+      // Function to render section navigation
+      function renderSectionNav() {
+        sectionNav.innerHTML = "";
+
+        foodSections.forEach((section) => {
+          const button = document.createElement("button");
+          button.className = "section-btn";
+          button.textContent = `${section.icon} ${section.title}`;
+          button.dataset.section = section.id;
+
+          button.addEventListener("click", () => {
+            // Remove active class from all buttons
+            document.querySelectorAll(".section-btn").forEach((btn) => {
+              btn.classList.remove("active");
+            });
+
+            // Add active class to clicked button
+            button.classList.add("active");
+
+            // Scroll to section
+            const sectionElement = document.getElementById(section.id);
+            if (sectionElement) {
+              sectionElement.scrollIntoView({ behavior: "smooth" });
+            }
+          });
+
+          sectionNav.appendChild(button);
+        });
+
+        // Set first section as active
+        if (sectionNav.firstChild) {
+          sectionNav.firstChild.classList.add("active");
+        }
+      }
+
+      // Function to render all sections
+      function renderSections(sections) {
+        sectionsContainer.innerHTML = "";
+
+        if (sections.length === 0) {
+          noResults.style.display = "block";
+          return;
+        }
+
+        noResults.style.display = "none";
+
+        sections.forEach((section) => {
+          const sectionElement = document.createElement("div");
+          sectionElement.id = section.id;
+
+          const sectionTitle = document.createElement("h2");
+          sectionTitle.className = "section-title";
+          sectionTitle.textContent = `${section.icon} ${section.title}`;
+
+          const folderGrid = document.createElement("div");
+          folderGrid.className = "folder-grid";
+
+          section.items.forEach((item) => {
+            const folderElement = document.createElement("div");
+            folderElement.className = "folder";
+            folderElement.innerHTML = `
+                <div class="folder-img">${item.image}</div>
+                <div class="folder-title">${item.title}</div>
+            `;
+
+            folderElement.addEventListener("click", () => {
+              openModal(item);
+            });
+
+            folderGrid.appendChild(folderElement);
+          });
+
+          sectionElement.appendChild(sectionTitle);
+          sectionElement.appendChild(folderGrid);
+          sectionsContainer.appendChild(sectionElement);
+        });
+      }
+
+      // Function to open modal with item details
+      function openModal(item) {
+        modalTitle.textContent = item.title;
+        modalBody.innerHTML = "";
+
+        // Add ingredients section
+        if (item.ingredients && item.ingredients.length > 0) {
+          const ingredientsSection = document.createElement("div");
+          ingredientsSection.className = "ingredients";
+          ingredientsSection.innerHTML = `
+            <h3><i class="fas fa-list"></i> Ingredients</h3>
+            <ul class="ingredients-list">
+                ${item.ingredients
+                  .map((ingredient) => `<li>${ingredient}</li>`)
+                  .join("")}
+            </ul>
+        `;
+          modalBody.appendChild(ingredientsSection);
+        }
+
+        // Add steps section
+        if (item.steps && item.steps.length > 0) {
+          item.steps.forEach((step, index) => {
+            const stepElement = document.createElement("div");
+            stepElement.className = "step";
+            stepElement.innerHTML = `
+                <h3 class="step-title">
+                    <span class="step-number">${index + 1}</span>
+                    ${step}
+                </h3>
+            `;
+            modalBody.appendChild(stepElement);
+          });
+        }
+
+        stepsModal.style.display = "block";
+      }
+
+      // Function to filter items based on search input
+      function filterItems() {
+        const searchTerm = searchInput.value.toLowerCase();
+
+        if (searchTerm === "") {
+          renderSections(foodSections);
+          return;
+        }
+
+        const filteredSections = foodSections
+          .map((section) => {
+            const filteredItems = section.items.filter((item) => {
+              return (
+                item.title.toLowerCase().includes(searchTerm) ||
+                (item.ingredients &&
+                  item.ingredients.some((ingredient) =>
+                    ingredient.toLowerCase().includes(searchTerm)
+                  )) ||
+                (item.steps &&
+                  item.steps.some((step) =>
+                    step.toLowerCase().includes(searchTerm)
+                  ))
+              );
+            });
+
+            return {
+              ...section,
+              items: filteredItems,
+            };
+          })
+          .filter((section) => section.items.length > 0);
+
+        renderSections(filteredSections);
+      }
+
+      // Event listeners
+      searchInput.addEventListener("input", filterItems);
+
+      closeModal.addEventListener("click", () => {
+        stepsModal.style.display = "none";
+      });
+
+      window.addEventListener("click", (event) => {
+        if (event.target === stepsModal) {
+          stepsModal.style.display = "none";
+        }
+      });
+
+      // Initial render
+      renderSectionNav();
+      renderSections(foodSections);
+    </script>
+  </body>
+</html>
